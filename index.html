@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Менеджер курса — Шесть шагов полевого визита</title>
+
+<style>
+:root{
+  --bg1:#f5f7fb;
+  --bg2:#e9eef8;
+  --text:#162033;
+  --muted:#6b768c;
+  --accent:#2f6df6;
+  --accent2:#6d5efc;
+  --line:rgba(0,0,0,.08);
+  --card:rgba(255,255,255,.78);
+  --card2:rgba(255,255,255,.92);
+}
+
+*{box-sizing:border-box}
+
+html, body{
+  margin:0;
+  padding:0;
+  min-height:100%;
+  font-family:Inter, Arial, sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(109,94,252,.18), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(59,130,246,.15), transparent 30%),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+}
+
+body{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  padding:20px;
+}
+
+.phone{
+  width:420px;
+  max-width:100%;
+  min-height:780px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,255,255,.94)),
+    linear-gradient(135deg, #eef3ff, #f9fbff);
+  border-radius:30px;
+  padding:16px 16px 22px;
+  box-shadow:0 25px 70px rgba(0,0,0,.15);
+  border:1px solid rgba(255,255,255,.8);
+  position:relative;
+  overflow:hidden;
+}
+
+.phone::before{
+  content:"";
+  position:absolute;
+  top:-40px;
+  right:-20px;
+  width:180px;
+  height:180px;
+  border-radius:999px;
+  background:rgba(109,94,252,.12);
+  filter:blur(12px);
+  pointer-events:none;
+}
+
+.phone::after{
+  content:"";
+  position:absolute;
+  left:-40px;
+  bottom:80px;
+  width:170px;
+  height:170px;
+  border-radius:999px;
+  background:rgba(59,130,246,.10);
+  filter:blur(12px);
+  pointer-events:none;
+}
+
+.content{
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.logo-wrap{
+  display:flex;
+  justify-content:center;
+  padding-top:2px;
+  padding-bottom:2px;
+}
+
+.logo{
+  width:110px;
+  max-width:52%;
+  height:auto;
+  display:block;
+}
+
+.hero{
+  background:var(--card2);
+  backdrop-filter:blur(12px);
+  border-radius:24px;
+  padding:16px;
+  border:1px solid var(--line);
+  box-shadow:0 18px 40px rgba(50,67,104,.08);
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  padding:7px 11px;
+  border-radius:999px;
+  background:rgba(59,130,246,.10);
+  color:var(--accent2);
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:10px;
+}
+
+h1{
+  margin:0;
+  font-size:27px;
+  line-height:1.06;
+  letter-spacing:-.02em;
+}
+
+.line{
+  width:78px;
+  height:4px;
+  background:linear-gradient(90deg,var(--accent2),var(--accent));
+  border-radius:999px;
+  margin:11px 0 11px;
+  box-shadow:0 6px 14px rgba(70,92,232,.18);
+}
+
+.hero p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.45;
+  margin:0;
+}
+
+.card{
+  background:var(--card);
+  border-radius:20px;
+  padding:13px;
+  border:1px solid var(--line);
+  box-shadow:0 10px 22px rgba(50,67,104,.05);
+}
+
+.card strong{
+  display:block;
+  font-size:14px;
+  margin-bottom:6px;
+}
+
+.card p{
+  margin:0;
+  font-size:12px;
+  line-height:1.45;
+  color:var(--muted);
+}
+
+.steps{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.step{
+  background:rgba(255,255,255,.92);
+  border-radius:16px;
+  padding:10px 8px;
+  text-align:center;
+  font-size:11px;
+  border:1px solid var(--line);
+}
+
+.step strong{
+  display:block;
+  color:var(--accent);
+  font-size:15px;
+  margin-bottom:4px;
+}
+
+.actions{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:4px;
+}
+
+.btn{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  width:100%;
+  padding:14px 15px;
+  border-radius:20px;
+  text-decoration:none;
+  font-weight:700;
+  transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+  border:none;
+  cursor:pointer;
+  font-family:inherit;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+}
+
+.btn:active{
+  transform:translateY(0) scale(.992);
+}
+
+.primary{
+  background:linear-gradient(135deg,var(--accent2),var(--accent));
+  color:white;
+  box-shadow:0 16px 34px rgba(74,95,220,.24);
+}
+
+.secondary{
+  background:white;
+  border:1px solid var(--line);
+  color:var(--text);
+  box-shadow:0 10px 22px rgba(50,67,104,.05);
+}
+
+.btn-left{
+  text-align:left;
+  min-width:0;
+}
+
+.btn-title{
+  display:block;
+  font-size:15px;
+  line-height:1.18;
+}
+
+.btn-sub{
+  display:block;
+  font-size:11px;
+  opacity:.82;
+  margin-top:3px;
+  line-height:1.3;
+}
+
+.arrow{
+  flex:0 0 auto;
+  width:40px;
+  height:40px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  font-size:19px;
+  background:rgba(255,255,255,.18);
+}
+
+.secondary .arrow{
+  background:rgba(59,130,246,.08);
+  color:var(--accent);
+}
+
+.copy-note{
+  display:none;
+  text-align:center;
+  font-size:12px;
+  color:#1e8e5a;
+  margin-top:-2px;
+  font-weight:600;
+}
+
+.copy-note.show{
+  display:block;
+}
+
+.footer{
+  text-align:center;
+  font-size:11px;
+  color:var(--muted);
+  margin-top:2px;
+  line-height:1.35;
+}
+
+.year{
+  margin-top:4px;
+  text-align:center;
+  font-size:11px;
+  color:var(--muted);
+  opacity:.7;
+}
+
+@media (max-width: 420px){
+  body{padding:14px}
+  .phone{
+    padding:14px 14px 20px;
+    border-radius:26px;
+  }
+  .logo{
+    width:100px;
+  }
+  h1{
+    font-size:24px;
+  }
+  .hero p,
+  .card p{
+    font-size:12px;
+  }
+  .btn{
+    padding:13px 14px;
+  }
+  .btn-title{
+    font-size:14px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="content">
+
+    <div class="logo-wrap">
+      <img src="logo.png" alt="Радуга Боттлерс" class="logo">
+    </div>
+
+    <div class="hero">
+      <div class="badge">Панель менеджера курса</div>
+      <h1>Шесть шагов<br>полевого визита</h1>
+      <div class="line"></div>
+      <p>
+        Рабочий экран для управления курсом: быстро отправить приглашение новому сотруднику,
+        посмотреть регистрации и открыть результаты тестирования.
+      </p>
+    </div>
+
+    <div class="card">
+      <strong>Что можно сделать</strong>
+      <p>
+        Отправить приглашение на курс, проверить список зарегистрированных участников
+        и быстро перейти к итогам тестирования.
+      </p>
+    </div>
+
+    <div class="steps">
+      <div class="step"><strong>01</strong>Отправить<br>ссылку</div>
+      <div class="step"><strong>02</strong>Проверить<br>регистрации</div>
+      <div class="step"><strong>03</strong>Открыть<br>результаты</div>
+    </div>
+
+    <div class="actions">
+
+      <button class="btn primary" id="copyInviteBtn" type="button">
+        <span class="btn-left">
+          <span class="btn-title">Скопировать приглашение</span>
+          <span class="btn-sub">отправить новому сотруднику</span>
+        </span>
+        <span class="arrow">→</span>
+      </button>
+
+      <div class="copy-note" id="copyNote">Ссылка скопирована</div>
+
+      <a href="https://docs.google.com/spreadsheets/d/1SBxWFldTeBm5AaahMhbQHU1YBNZCzMP3ZWRzUn6YBtI/edit?resourcekey=&gid=2061858747#gid=2061858747" class="btn secondary" target="_blank" rel="noopener noreferrer">
+        <span class="btn-left">
+          <span class="btn-title">Посмотреть, кто зарегистрировался</span>
+          <span class="btn-sub">открыть список участников курса</span>
+        </span>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="https://docs.google.com/spreadsheets/d/13Iu14jHWIAG4u1fbjrl79f6ZkRGRzMIulnhEsJ6Jqhs/edit?resourcekey=&gid=1306866560#gid=1306866560" class="btn secondary" target="_blank" rel="noopener noreferrer">
+        <span class="btn-left">
+          <span class="btn-title">Посмотреть результаты тестирования</span>
+          <span class="btn-sub">открыть таблицу с результатами</span>
+        </span>
+        <span class="arrow">→</span>
+      </a>
+
+      <div class="footer">
+        Первая кнопка копирует ссылку на приглашение. Остальные открывают рабочие таблицы менеджера.
+      </div>
+
+      <div class="year">2026</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const inviteLink = "https://konthub.github.io/raduga-6step01/";
+const copyBtn = document.getElementById("copyInviteBtn");
+const copyNote = document.getElementById("copyNote");
+
+copyBtn.addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText(inviteLink);
+    copyNote.textContent = "Ссылка скопирована";
+    copyNote.classList.add("show");
+  } catch (err) {
+    const tempInput = document.createElement("textarea");
+    tempInput.value = inviteLink;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
+    copyNote.textContent = "Ссылка скопирована";
+    copyNote.classList.add("show");
+  }
+
+  setTimeout(() => {
+    copyNote.classList.remove("show");
+  }, 2200);
+});
+</script>
+
+</body>
+</html>
